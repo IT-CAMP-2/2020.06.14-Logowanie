@@ -47,6 +47,7 @@ public class GUI {
                     System.out.println("OK !!");
                 } else {
                     System.out.println("Niepoprawne dane !!");
+                    //jhtdjhtdhjgf
                 }
                 return;
             }
@@ -58,6 +59,12 @@ public class GUI {
     private static void showRegisterMenu() {
         System.out.println("Podaj login:");
         String login = scanner.nextLine();
+
+        if(checkUserExist(login)) {
+            System.out.println("Login zajęty !!");
+            showRegisterMenu();
+            return;
+        }
 
         System.out.println("Podaj hasło:");
         String pass = scanner.nextLine();
@@ -77,7 +84,7 @@ public class GUI {
 
     private static Sex readSex() {
         System.out.println("Podaj płeć (M/W/O): ");
-        switch (scanner.nextLine()) {
+        switch (scanner.nextLine().toUpperCase()) {
             case "M":
                 return Sex.MAN;
             case "W":
@@ -90,5 +97,15 @@ public class GUI {
         }
 
         return null;
+    }
+
+    private static boolean checkUserExist(String login) {
+        for(User user : Repository.getRepository().getUsers()) {
+            if(user.getLogin().equals(login)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
